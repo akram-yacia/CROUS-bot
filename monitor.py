@@ -23,7 +23,7 @@ def get_listings():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page(locale="fr-FR")
-        page.goto(SEARCH_URL, wait_until="domcontentloaded", timeout=60000)
+        page.goto(SEARCH_URL, wait_until="commit", timeout=60000)
         page.wait_for_timeout(2500)
         links = page.locator('a[href*="/tools/47/"]').evaluate_all("els => els.map(a => ({href:a.href, text:(a.innerText||a.getAttribute('aria-label')||'').trim()}))")
         browser.close()
@@ -48,4 +48,6 @@ if __name__ == "__main__":
     except Exception as exc:
         print(f"Monitor failed: {exc}", file=sys.stderr)
         raise
+
+
 
